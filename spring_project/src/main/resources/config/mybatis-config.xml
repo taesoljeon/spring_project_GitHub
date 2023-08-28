@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias type="com.spring.dto.user.UserDto" alias="UserDto"/>
+		<typeAlias type="com.spring.dto.user.User_RoleDto" alias="User_RoleDto"/>
+		<typeAlias type="com.spring.dto.user.User_ConditionDto" alias="User_ConditionDto"/>
+		<typeAlias type="com.spring.dto.user.User_ChangeDto" alias="User_ChangeDto"/>
+		<typeAlias type="com.spring.dto.user.User_BankDto" alias="User_BankDto"/>
+		<typeAlias type="com.spring.dto.user.TotalDto" alias="TotalDto"/>
+		
+		<!-- tae sol  -->
+		<!-- tae sol  -->
+		<typeAlias type="com.spring.dto.product.ProductVO"    alias="ProductVO"/>
+		<typeAlias type="com.spring.dto.product.Product_correction_dateVO"     alias="Product_correction_dateVO"/>
+		<typeAlias type="com.spring.dto.detail.DetailVO"      alias="DetailVO"/>
+		<typeAlias type="com.spring.dto.image.ImageVO"        alias="ImageVO"/>
+		
+		
+		<typeAlias type="com.spring.dto.sell.Sell_cancle_dateVO"        alias="Sell_cancle_dateVO"/>
+		<typeAlias type="com.spring.dto.sell.SellVO"        			alias="SellVO"/>
+		<typeAlias type="com.spring.dto.sell.Sell_correction_dateVO"        alias="Sell_correction_dateVO"/>
+		
+		<typeAlias type="com.spring.dto.noticeboard.NoticeboardVO"        				  alias="NoticeboardVO"/>
+		<typeAlias type="com.spring.dto.noticeboard.Noticeboard_correction_dateVO"        alias="Noticeboard_correction_dateVO"/>
+		<typeAlias type="com.spring.dto.user.sns_infoDto" alias="sns_infoDto"/>
+		<!-- tae sol  -->
+		<!-- tae sol  -->
+		
+		
+		<typeAlias type="com.spring.dto.bid.BidCreateDto" alias="BidCreateDto"/>
+		<typeAlias type="com.spring.dto.bid.BidReadDto" alias="BidReadDto"/>
+		<typeAlias type="com.spring.dto.bid.OrderDto" alias="OrderDto"/>
+		<typeAlias type="com.spring.dto.bid.OrderTransactionVO" alias="OrderTransactionVO"/>
+		<typeAlias type="com.spring.dto.bid.ProductBuyVO" alias="ProductBuyVO"/>
+		<typeAlias type="com.spring.dto.bid.ProductParamVO" alias="ProductParamVO"/>
+		<typeAlias type="com.spring.dto.bid.ProductDetailVO" alias="ProductDetailVO"/>
+		<typeAlias type="com.spring.dto.bid.SizePriceVO" alias="SizePriceVO"/>
+		<typeAlias type="com.spring.dto.bid.TransactionHistoryVO" alias="TransactionHistoryVO"/>
+		<typeAlias type="com.spring.dto.bid.WishDto" alias="WishDto"/>
+		<typeAlias type="com.spring.dto.bid.WishReadDto" alias="WishReadDto"/>
+		<typeAlias type="com.spring.dto.bid.BidUserVO" alias="BidUserVO"/>
+
+		<typeAlias type="com.spring.dto.bid.ChartParamDto" alias="ChartParamDto"/>
+		<typeAlias type="com.spring.dto.bid.ChartResultDto" alias="ChartResultDto"/>
+	</typeAliases>
+</configuration>

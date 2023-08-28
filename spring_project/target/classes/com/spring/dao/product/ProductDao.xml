@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.dao.product.ProductDao">
+	<resultMap type="ProductVO" id="productMap">
+		<id		property="product_code" 	column="product_code" />
+		<result property="product_code" 	column="product_code" />
+		<result property="product_brand" 	column="product_brand" />
+		<result property="product_name" 	column="product_name" />
+		<result property="product_number" 	column="product_number" />
+		<result property="product_price" 	column="product_price" />
+		<result property="product_date" 	column="product_date" />
+		<result property="product_title" 	column="product_title" />
+		<result property="product_creation_date" 	column="product_creation_date" />
+		<result property="product_category_code" 	column="product_category_code" />
+		<collection property="product_correction_dateList" resultMap="Product_correction_dateMap" />
+	</resultMap>
+	
+		<resultMap type="Product_correction_dateVO" id="Product_correction_dateMap">
+			<result property="product_code" 			column="product_code" />		
+			<result property="product_correction" 			column="product_correction" />
+			<result property="product_correction_date" 	column="product_correction_date" />
+		</resultMap>
+	
+	<select id="product_readAll" parameterType="java.util.HashMap" resultMap="productMap">
+		SELECT p.product_code, p.product_brand, p.product_name, p.product_number, p.product_price, p.product_date, pcd.product_correction_date
+		FROM product p
+		LEFT OUTER JOIN product_correction_date pcd ON p.product_code = pcd.product_code 
+		order by p.product_code desc limit #{pstartno}, #{onpagelist} 
+	</select>
+	
+	<select  id="listcnt"  resultType="int"  >
+		 select count(*) from product
+	</select>
+	
+	<select id="product_read" resultType="ProductVO">
+		select * from product where product_code=#{product_code}
+	</select>
+	
+	<!-- inset 시에 필요한 product_code 받아오기 -->
+	<select id="getInsertedProductCode" resultType="int">
+		select max(product_code) from product;
+	</select>
+	<insert id="product_insert">
+		insert into product (product_brand, product_name, product_number, product_price, product_date, product_title, product_category_code)
+		values ( #{product_brand}, #{product_name}, #{product_number}, #{product_price}, #{product_date}, #{product_title}, #{product_category_code})
+	</insert>
+	<update id="product_update">
+  	update product set
+  	product_brand=#{product_brand},
+  	product_name=#{product_name},
+  	product_number=#{product_number},
+  	product_price=#{product_price},
+  	product_date=#{product_date},
+  	product_title=#{product_title},
+  	product_category_code=#{product_category_code}
+  	where product_code=#{product_code}
+	</update>
+	
+	
+	
+</mapper>

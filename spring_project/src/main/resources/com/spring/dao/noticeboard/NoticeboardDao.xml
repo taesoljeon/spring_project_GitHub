@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mabatis.org//DTD Mapper 3.0//EN"
+	"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.dao.noticeboard.NoticeboardDao">
+	<resultMap type="NoticeboardVO" id="NoticeboardMap">
+		<id property="noticeboard_code" column="noticeboard_code" />
+		<result property="noticeboard_code" column="noticeboard_code" />
+		<result property="noticeboard_title" column="noticeboard_title" />
+		<result property="noticeboard_content" column="noticeboard_content" />
+		<result property="noticeboard_creation_date" column="noticeboard_creation_date" />
+		<result property="noticeboard_ip" column="noticeboard_ip" />
+		<result property="noticeboard_user_id" column="noticeboard_user_id" />
+		<collection property="noticeboard_correction_dateList" resultMap="Notice_correction_dateMap" />
+	</resultMap>
+	
+	<resultMap type="Noticeboard_correction_dateVO" id="Notice_correction_dateMap">
+		<result property="noticeboard_code"  column="noticeboard_code" />
+		<result property="noticeboard_correction_date"  column="noticeboard_correction_date" />
+	</resultMap>
+	
+	<select id="notice_readAll" parameterType="java.util.HashMap" resultMap="NoticeboardMap">
+		SELECT n.noticeboard_code, n.noticeboard_title, n.noticeboard_creation_date, ncd.noticeboard_correction_date, n.noticeboard_ip, n.noticeboard_user_id
+		FROM noticeboard n
+		LEFT OUTER JOIN noticeboard_correction_date ncd ON n.noticeboard_code = ncd.noticeboard_code
+		ORDER BY n.noticeboard_code desc limit #{pstartno}, #{onpagelist}
+	</select>
+	
+	<!-- test -->
+	<select id="test_readAll" parameterType="java.util.HashMap" resultMap="NoticeboardMap">
+		SELECT n.noticeboard_code, n.noticeboard_title, n.noticeboard_creation_date, ncd.noticeboard_correction_date, n.noticeboard_ip, n.noticeboard_user_id
+		FROM noticeboard n
+		LEFT OUTER JOIN noticeboard_correction_date ncd ON n.noticeboard_code = ncd.noticeboard_code
+		<!-- ORDER BY n.noticeboard_code desc limit #{pstartno}, #{onpagelist} -->
+	</select>
+	<!-- test -->
+	
+	
+	
+	<select id="listcnt" resultType="int">
+		select count(*) from noticeboard
+	</select>
+	
+	<select id="noticeboard_read" resultType="NoticeboardVO" parameterType="int">
+    select * from noticeboard where noticeboard_code = #{noticeboard_code}
+	</select>
+	
+	<insert id="noticeboard_insert" >
+		insert into noticeboard (noticeboard_title, noticeboard_content, noticeboard_ip, noticeboard_user_id)
+		values (#{noticeboard_title}, #{noticeboard_content}, #{noticeboard_ip}, #{noticeboard_user_id});
+	</insert>
+	
+	<update id="noticeboard_update" parameterType="NoticeboardVO">
+		update noticeboard set
+		noticeboard_title = #{noticeboard_title},
+		noticeboard_content = #{noticeboard_content}
+		where noticeboard_user_id = #{noticeboard_user_id} and noticeboard_code = #{noticeboard_code}
+	</update>
+	
+	<delete id="noticeboard_delete">
+		delete from noticeboard where noticeboard_user_id=#{noticeboard_user_id} and noticeboard_code = #{noticeboard_code}
+	</delete>
+	
+</mapper>
