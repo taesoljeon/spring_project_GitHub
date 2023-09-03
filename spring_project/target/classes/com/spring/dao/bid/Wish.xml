@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.dao.bid.Wish">
+
+		<insert id="wishCreate" parameterType="WishDto">
+			insert into wish ( wish_detail_code , wish_user_id ) values ( #{detail_code} ,#{user_id} )
+		</insert>
+		
+		<select id="wishReadAll" parameterType="String" resultType="WishReadDto">
+		SELECT
+		w.wish_code ,
+		de.detail_code ,
+		im.image_target ,
+		im.image_title ,
+		pr.product_brand ,
+		pr.product_name ,
+		pr.product_code ,
+		si.size ,
+		si.size_code ,
+		(SELECT min(se.sell_price) FROM sell se WHERE se.sell_detail_code = de.detail_code AND se.sell_condition_code = 2) 'min_price'
+		FROM wish w
+		JOIN detail de ON w.wish_detail_code = de.detail_code
+		JOIN product pr ON pr.product_code = de.detail_product_code
+		LEFT JOIN image im ON im.image_product_code = pr.product_code
+		JOIN size si ON si.size_code = de.detail_size_code
+		JOIN user u ON u.user_id = w.wish_user_id
+		WHERE user_id = #{user_id}
+		ORDER BY de.detail_code ASC
+		</select>
+			
+		<delete id="wishDelete" parameterType="int">
+			delete from wish where wish_code = #{wish_code}
+		</delete>
+		
+		<select id="wishsizechk" resultType="Integer" parameterType="WishDto">
+			select 
+			si.size_code 
+			from 
+			wish wi 
+			join detail de on de.detail_code = wi.wish_detail_code 
+			join size si on de.detail_size_code = si.size_code 
+			where de.detail_product_code = #{product_code} 
+			and wi.wish_user_id = #{user_id}
+		</select> 
+		
+		<select id="wishchk" resultType="Integer" parameterType="WishDto">
+			select wish_code from wish where wish_detail_code = #{detail_code} and wish_user_id = #{user_id}
+		</select>
+		
+</mapper>

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.dao.user.UserMapper">
+	<select id="user_login" resultType="UserDto">
+	 select * from user where user_id = #{user_id} and user_password = #{user_password}
+	</select>
+	<!-- id : 메소드명, resultType : return, parameterType : 파라미터 타입 -->
+	<insert id="user_insert" parameterType="UserDto"> <!-- 회원가입 (유저) -->
+		insert into user
+		(user_id,
+		user_password, user_name, user_gender,
+		user_birth_date,
+		user_telephone_number, user_address, user_ip)
+		values
+		(#{user_id},
+		#{user_password}, #{user_name}, #{user_gender},
+		#{user_birth_date},
+		#{user_telephone_number}, #{user_address},
+		#{user_ip})
+	</insert>
+
+	<insert id="user_bank_insert" parameterType="User_BankDto">  <!-- 회원가입 (유저) -->
+		insert into
+		user_bank (user_id, user_bank, user_account_number)
+		values
+		(#{user_id},
+		#{user_bank}, #{user_account_number})
+	</insert>
+
+	<select id="user_id_check_ajax"
+		resultType="String" parameterType="String">  <!-- 아이디 중복 검사 (ajax) -->
+		select user_id from user where user_id = #{user_id}
+	</select>
+
+	<select id="user_telephone_check_ajax"
+		resultType="String" parameterType="String">  <!-- 휴대폰번호 중복 검사 (ajax) -->
+		select user_telephone_number from user where user_telephone_number =
+		#{user_telephone_number}
+	</select>
+
+	<select id="user_find_id" resultType="com.spring.dto.user.UserDto"> <!-- 아이디 찾기 -->
+		select * from user where user_telephone_number =
+		#{user_telephone_number}
+	</select>
+
+	<select id="user_find_password"
+		resultType="com.spring.dto.user.UserDto"> <!-- 비밀번호 찾기 -->
+		select * from user where user_telephone_number =
+		#{user_telephone_number} and user_id = #{user_id}
+	</select>
+
+	<select id="user_mydetail" resultType="com.spring.dto.user.UserDto"> <!-- 내 정보 조회 / 해당 정보 상세보기 -->
+		select * from user a left join user_bank b on
+		a.user_id = b.user_id
+		left
+		join user_role c on a.user_role_code =
+		c.user_role_code left join
+		user_condition d on a.user_condition_code =
+		d.user_condition_code
+		where
+		a.user_id = #{user_id}
+	</select>
+
+	<update id="user_change_password" parameterType="UserDto"> <!-- 비밀번호 변경 -->
+		update user set user_password = #{user_password} where user_id =
+		#{user_id}
+	</update>
+
+	<update id="user_change_name" parameterType="UserDto"> <!-- 이름 변경 -->
+		update user set user_name = #{user_name} where user_id = #{user_id}
+	</update>
+
+	<update id="user_change_telephone" parameterType="UserDto"> <!-- 휴대폰번호 변경 -->
+		update user set user_telephone_number = #{user_telephone_number} where
+		user_id = #{user_id}
+	</update>
+
+	<update id="user_change_address" parameterType="UserDto"> <!-- 주소 변경 -->
+		update user set user_address = #{user_address} where user_id =
+		#{user_id}
+	</update>
+
+	<update id="user_change_bank" parameterType="User_BankDto"> <!-- 은행 및 계좌 번호 변경 -->
+		update user_bank set user_bank = #{user_bank}, user_account_number =
+		#{user_account_number} where user_id = #{user_id}
+	</update>
+
+	<update id="user_delete_user" parameterType="UserDto"> <!-- 회원 탈퇴 (user-비활성화) -->
+		update user set user_condition_code = 2 where user_id = #{user_id} and
+		user_password = #{user_password}
+	</update>
+
+	<insert id="user_insert_sub" parameterType="UserDto"> <!-- 서브관리자 등록 -->
+		insert into user
+		(user_id, user_password, user_name, user_gender,
+		user_birth_date,
+		user_telephone_number, user_address, user_ip,
+		user_role_code)
+		values
+		(#{user_id}, #{user_password}, #{user_name},
+		#{user_gender}, #{user_birth_date}, #{user_telephone_number},
+		#{user_address}, #{user_ip}, 3)
+	</insert>
+
+	<select id="user_read_admin"
+		resultType="com.spring.dto.user.UserDto"> <!-- 관리자 관리 (등급순) -->
+		select * from user a left join user_bank b on a.user_id = b.user_id
+		left join user_role c on a.user_role_code = c.user_role_code left join
+		user_condition d on a.user_condition_code = d.user_condition_code
+		where
+		c.user_role_code !=2 order by a.user_role_code asc
+	</select>
+
+	<select id="user_read_admin_id_ajax"
+		resultType="com.spring.dto.user.UserDto"> <!-- 관리자 관리 - (아이디순) ajax -->
+		select * from user a left join user_bank b on a.user_id = b.user_id
+		left
+		join user_role c on a.user_role_code = c.user_role_code left join
+		user_condition d on a.user_condition_code = d.user_condition_code
+		where
+		c.user_role_code !=2 order by a.user_id asc
+	</select>
+
+	<select id="user_read_admin_name_ajax"
+		resultType="com.spring.dto.user.UserDto"> <!-- 관리자 관리 - (이름순) ajax -->
+		select * from user a left join user_bank b on a.user_id = b.user_id
+		left join user_role c on a.user_role_code = c.user_role_code left join
+		user_condition d on a.user_condition_code = d.user_condition_code
+		where
+		c.user_role_code !=2 order by a.user_name asc
+	</select>
+
+	<select id="user_read_user" resultType="com.spring.dto.user.UserDto"> <!-- 회원 관리 (생성일자순) -->
+		select * from user a left join user_bank b on a.user_id = b.user_id
+		left join user_role c on a.user_role_code = c.user_role_code left join
+		user_condition d on a.user_condition_code = d.user_condition_code
+		where
+		c.user_role_code = 2 order by a.user_join_date asc
+	</select>
+
+	<select id="user_read_user_id_ajax"
+		resultType="com.spring.dto.user.UserDto"> <!-- 회원 관리 - (아이디순) ajax -->
+		select * from user a left join user_bank b on a.user_id = b.user_id
+		left join user_role c on a.user_role_code = c.user_role_code left join
+		user_condition d on a.user_condition_code = d.user_condition_code
+		where
+		c.user_role_code = 2 order by a.user_id asc
+	</select>
+
+	<select id="user_read_user_name_ajax"
+		resultType="com.spring.dto.user.UserDto"> <!-- 회원 관리 - (이름순) ajax -->
+		select * from user a left join user_bank b on a.user_id = b.user_id
+		left join user_role c on a.user_role_code = c.user_role_code left join
+		user_condition d on a.user_condition_code = d.user_condition_code
+		where
+		c.user_role_code = 2 order by a.user_name asc
+	</select>
+
+<!-- 	<update id="user_delete_admin" parameterType="UserDto"> 어드민 계정 비활성화 및 회원 계정 비활성화 (보류)
+		update user a join user b on b.user_id = #{user_id}
+		and
+		b.user_password
+		= #{user_password} set a.user_condition_code = 2 where a.user_id
+		=
+		#{user_id} and a.user_password = #{user_password}
+	</update> -->
+</mapper>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.dao.image.ImageDao">
+	<!-- result Map 메인페이지 필요 값 -->
+	<resultMap type="ImageVO" id="ImageMap">
+		<id property="image_code" column="image_code" />
+		<result property="image_code" column="image_code" />
+		<result property="image_target" column="image_target" />
+		<result property="image_title" column="image_title" />
+		<result property="image_product_code"
+			column="image_product_code" />
+		<collection property="image_main_list"
+			resultMap="productMap"></collection>
+	</resultMap>
+
+	<resultMap type="ProductVO" id="productMap">
+		<result property="product_code" column="product_code" />
+		<result property="product_brand" column="product_brand" />
+		<result property="product_name" column="product_name" />
+		<result property="product_number" column="product_number" />
+		<result property="product_price" column="product_price" />
+		<result property="product_date" column="product_date" />
+		<result property="product_title" column="product_title" />
+		<result property="product_creation_date"
+			column="product_creation_date" />
+		<result property="product_category_code"
+			column="product_category_code" />
+	</resultMap>
+
+	<select id="image_main_list" resultMap="ImageMap">
+		SELECT i.image_code, i.image_target, i.image_title, i.image_product_code,
+		p.product_brand, p.product_name, p.product_number, p.product_price
+		FROM image AS i
+		LEFT OUTER JOIN product AS p ON i.image_product_code = p.product_code
+	</select>
+
+
+
+	<select id="image_search_list" resultMap="ImageMap">
+		SELECT i.image_code, i.image_target, i.image_title, i.image_product_code,
+		p.product_brand, p.product_name, p.product_number, p.product_price
+		FROM image AS i
+		LEFT OUTER JOIN product AS p ON i.image_product_code = p.product_code
+		WHERE i.image_title LIKE CONCAT('%', #{search}, '%')
+		OR p.product_brand LIKE CONCAT('%', #{search}, '%')
+		OR p.product_name LIKE CONCAT('%', #{search}, '%')
+		OR p.product_number LIKE CONCAT('%', #{search}, '%')
+		OR p.product_title LIKE CONCAT('%', #{search}, '%')
+	</select>
+
+
+	<select id="image_category_list" resultMap="ImageMap">
+		SELECT i.image_code, i.image_target, i.image_title,
+		i.image_product_code,
+		p.product_brand, p.product_name, p.product_number, p.product_price
+		FROM image AS i
+		LEFT OUTER JOIN product AS p ON i.image_product_code = p.product_code
+		<where>
+			<choose>
+				<!-- <when test="categoryCode.indexOf('00') >= 0 and categoryCode.size() 
+					> 0"> -->
+				<!-- <when test="categoryCode.contains('100') or categoryCode.contains('200') or categoryCode.contains('300') or categoryCode.contains('400')"> -->
+				<!-- <when test="categoryCode.contains('1') or categoryCode.contains('2') or categoryCode.contains('3') or categoryCode.contains('4') "> -->
+				<when test="categoryCode.size() > 0">
+					AND (
+					<foreach collection="categoryCode" item="code"
+						separator="OR">
+						p.product_category_code LIKE CONCAT(#{code}, '%')
+					</foreach>
+					)
+				</when>
+				<!-- 1일 경우 1% 101일 경우 101% 대분류 / 소분류 -->
+				<otherwise>
+						
+				</otherwise>
+			</choose>
+		</where>
+		<choose>
+			<when test="orderBy == 'date'">
+				ORDER BY p.product_date ASC
+			</when>
+			<when test="orderBy == 'high'">
+				ORDER BY p.product_price DESC
+			</when>
+			<when test="orderBy == 'low'">
+				ORDER BY p.product_price ASC
+			</when>
+			<otherwise>
+				ORDER BY p.product_date ASC
+			</otherwise>
+		</choose>
+	</select>
+
+
+
+
+	<select id="image_readAll" resultType="ImageVO">
+		select * from
+		image
+	</select>
+
+	<select id="image_count" resultType="Integer">
+		select
+		count(image_product_code) from image where image_product_code =
+		#{image_product_code}
+	</select>
+
+	<select id="image_read" resultType="ImageVO">
+		select * from image
+		where image_product_code = #{image_product_code}
+	</select>
+	<insert id="image_insert">
+		insert into image (image_target, image_title,
+		image_product_code)
+		values ( #{image_target} , #{image_title},
+		#{image_product_code} )
+	</insert>
+	<update id="image_update">
+		update image set image_target=#{image_target},
+		image_title=#{image_title}
+		where
+		image_product_code=#{image_product_code}
+	</update>
+
+	<delete id="image_delete">
+		delete from image where
+		image_product_code=#{image_product_code}
+	</delete>
+
+</mapper>

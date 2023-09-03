@@ -1,0 +1,98 @@
+.taesol_registration-page .productBox {
+	    border: 1px solid #0f0f0f;
+    box-shadow: 14px 9px 25px -8px #d7d7d7;
+}
+
+#minho_main .taesol_registration-page .r1 {
+    font-family: 'Montserrat', 'Noto Sans KR', sans-serif;
+    margin: 35px 0 35px 0;
+    font-size: 30px;
+    text-align-last: center;
+    font-weight: 600;
+    color: #0f0f0f;
+}
+#minho_main .taesol-text{
+font-family: 'Montserrat', 'Noto Sans KR', sans-serif;
+    border-radius: 0;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid #ccc;
+    box-shadow: none;
+    padding: 0;
+    margin: 16px 0 0 0;
+    padding-bottom: 8px;
+}
+
+
+#minho_main #p1 li {
+    padding: 0;
+}		
+#minho_main .registration-page, .my-table th {
+    text-align: center;
+}
+#minho_main .container.edit {
+    width: 50%;
+}
+#minho_main .container.detail {
+    width: 50%;
+}
+#minho_main .r-edit{
+	width: 50%;
+}
+#minho_main .r-write{
+	width: 50%;
+}
+
+#minho_main .size-container {
+  display: flex;
+  flex-direction: column;
+}
+
+#minho_main .row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+#minho_main .row input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+
+#minho_main span#in_content {
+    display: inline-block;
+    height: 200px;
+    overflow-y: scroll;
+}
+#minho_main span#in_reply_content{
+	display: inline-block;
+    height: 200px;
+    overflow-y: scroll;
+}
+#minho_main textarea.form-control {
+    display: inline-block;
+    height: 200px;
+    overflow-y: scroll;
+}
+
+ #minho_main .taesolInfo {
+	margin: 25px 0 15px 10px;
+    font-family: 'Montserrat', 'Noto Sans KR', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+}
+#minho_main .ts-text-center {
+    text-align: center;
+    margin: 0px 26px 25px 21px;
+    position: absolute;
+    left: 45%;
+    transform: inherit;
+}
+#minho_main #noticeboard_user_list {
+	align-items: center;
+    border-bottom: 1px solid #ebebeb;
+    cursor: pointer;
+    display: flex;
+    padding: 17px 0 19px;	
+}

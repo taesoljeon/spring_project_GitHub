@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.dao.detail.DetailDao">
+	
+	<select id="detail_list" resultType="DetailVO">
+		select * from detail where detail_product_code=#{detail_product_code} order by detail_code desc
+	</select>
+	
+	<select id="main_detail_List" resultType="DetailVO">
+		select * from detail where detail_product_code=#{detail_product_code};
+	</select>
+	
+	<!-- 정신없어서 똑같은거 두개 만듬 ㅇ.ㅇ  -->
+	<select id="detail_read" resultType="DetailVO">
+		select * from detail where detail_product_code=#{detail_product_code}
+	</select>									
+	
+	<!-- 		product 등록시 작동할 insert  -->
+	<insert id="detail_insert">
+		insert into detail (detail_size_code   , detail_product_code    )
+		values             (#{detail_size_code}, #{detail_product_code} )
+	</insert>
+	
+	<!-- 		product 수정시 작동할 update  -->
+	<!-- 		product 수정페이지에서 수정하기 떄문에 where detail_product_code=#{detail_product_code} 로 해야될듯 -->
+	<update id="detail_update">
+		update detail set detail_size_code=#{detail_size_code} where detail_product_code=#{detail_product_code} and detail_code=#{detail_code}	  
+	</update>
+	
+	
+	<delete id="detail_delete">
+		delete from detail where detail_code=#{product_code}
+	</delete>
+</mapper>
